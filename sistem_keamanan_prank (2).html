@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Portal & Critical Warning</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom Typography */
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        .font-rajdhani { font-family: 'Rajdhani', sans-serif; }
+        .font-creepster { font-family: 'Creepster', cursive; }
+        .font-mono-tech { font-family: 'Share Tech Mono', monospace; }
+
+        /* Custom Scrollbar for Page 2 */
+        #page-2::-webkit-scrollbar {
+            width: 8px;
+        }
+        #page-2::-webkit-scrollbar-track {
+            background: #090000;
+        }
+        #page-2::-webkit-scrollbar-thumb {
+            background: #991b1b;
+            border-radius: 4px;
+            box-shadow: 0 0 10px #ef4444;
+        }
+        #page-2::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
+
+        /* Page 1 Animations & Styling */
+        @keyframes pulse-red-glow {
+            0%, 100% { 
+                box-shadow: 0 0 25px rgba(239, 68, 68, 0.8), 0 0 50px rgba(220, 38, 38, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 45px rgba(255, 0, 0, 1), 0 0 90px rgba(185, 28, 28, 0.9), inset 0 0 25px rgba(255, 255, 255, 0.5);
+                transform: scale(1.03) rotate(-0.5deg);
+            }
+        }
+
+        @keyframes vibrate-subtle {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-1.5px, 1.5px); }
+            40% { transform: translate(-1.5px, -1.5px); }
+            60% { transform: translate(1.5px, 1.5px); }
+            80% { transform: translate(1.5px, -1.5px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .btn-danger-glowing {
+            animation: pulse-red-glow 1.8s infinite ease-in-out, vibrate-subtle 0.25s infinite linear;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .cyber-grid-bg {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+        }
+
+        /* Page 2 Horrific FX */
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-3px, 3px) }
+            40% { transform: translate(-3px, -3px) }
+            60% { transform: translate(3px, 3px) }
+            80% { transform: translate(3px, -3px) }
+            100% { transform: translate(0) }
+        }
+
+        .glitch-text {
+            animation: glitch 0.15s infinite linear alternate-reverse;
+        }
+
+        @keyframes blood-flicker {
+            0%, 100% { background-color: rgba(15, 0, 0, 0.98); }
+            10% { background-color: rgba(80, 0, 0, 0.95); }
+            15% { background-color: rgba(20, 0, 0, 0.99); }
+            25% { background-color: rgba(120, 0, 0, 0.92); }
+            30% { background-color: rgba(10, 0, 0, 0.98); }
+            70% { background-color: rgba(60, 0, 0, 0.96); }
+        }
+
+        .blood-background {
+            animation: blood-flicker 2.5s infinite ease-in-out;
+            background: radial-gradient(circle, rgba(70, 0, 0, 0.95) 0%, rgba(5, 0, 0, 1) 100%);
+        }
+
+        #lightning-overlay {
+            pointer-events: none;
+            transition: opacity 0.03s ease-out;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white overflow-x-hidden font-rajdhani select-none">
+
+    <!-- ================= HALAMAN 1: MODERN, ULTRA RAMAI & KOOL ================= -->
+    <div id="page-1" class="relative min-h-screen flex flex-col justify-between items-center p-4 md:p-6 cyber-grid-bg transition-opacity duration-700 opacity-100 z-10">
+        <!-- Canvas Background Particles & Grid Glow -->
+        <canvas id="particles-canvas" class="z-0 pointer-events-none"></canvas>
+
+        <!-- Top Announcement Bar / Running Text -->
+        <div class="w-full max-w-6xl z-10 mb-2 overflow-hidden rounded-full bg-cyan-950/40 border border-cyan-500/30 py-1.5 px-4 backdrop-blur-md flex items-center">
+            <span class="bg-cyan-500 text-slate-950 font-orbitron text-xs font-black px-2.5 py-0.5 rounded-full mr-3 shrink-0 uppercase tracking-widest">LIVE FEED</span>
+            <marquee class="font-mono-tech text-xs text-cyan-300 tracking-wider">
+                SYSTEM STATUS: OPTIMAL // QUANTUM CORE OPERATIONAL // REAL-TIME NETWORK MONITORING ACTIVE // SECURE SESSION ESTABLISHED // THREAT LEVEL: ZERO //
+            </marquee>
+        </div>
+
+        <!-- Header / Navbar -->
+        <header class="w-full max-w-6xl flex justify-between items-center py-3.5 px-6 rounded-2xl glass-card z-10">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-400 via-blue-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-cyan-500/40 animate-pulse">
+                    <i class="fa-solid fa-shield-cat text-xl text-white"></i>
+                </div>
+                <div>
+                    <span class="font-orbitron text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-300 to-blue-500 block leading-none">NEXUS-V</span>
+                    <span class="text-[10px] font-mono-tech text-cyan-400 tracking-widest">CYBERNETIC SECURITY SUITE</span>
+                </div>
+            </div>
+
+            <!-- Stats Badge -->
+            <div class="flex items-center space-x-4">
+                <div class="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/40 text-xs font-orbitron text-emerald-400">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span>100% PROTECTED</span>
+                </div>
+                <div class="flex items-center space-x-1 text-slate-400 text-sm">
+                    <i class="fa-solid fa-server text-cyan-400"></i>
+                    <span class="font-mono-tech text-xs text-cyan-200">NODE-89</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Content Area -->
+        <main class="w-full max-w-5xl flex flex-col items-center text-center my-auto py-8 z-10 space-y-6">
+            
+            <!-- Floating Badge -->
+            <div class="inline-flex items-center space-x-3 px-5 py-2 rounded-full glass-card border border-cyan-400/40 text-cyan-300 text-xs md:text-sm font-orbitron tracking-wider shadow-lg shadow-cyan-500/10 animate-bounce">
+                <i class="fa-solid fa-atom text-cyan-400 text-base animate-spin"></i>
+                <span>Generasi Masa Depan Interaksi Digital</span>
+                <span class="bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded text-[10px] border border-cyan-400/30">v4.0</span>
+            </div>
+
+            <!-- Futuristic Main Heading -->
+            <h1 class="font-orbitron text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-tight">
+                JELAJAHI EROSI <br class="hidden sm:inline"/>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-teal-200 to-indigo-500 drop-shadow-[0_0_35px_rgba(6,182,212,0.6)]">
+                    DIGITAL FUTURISTIK
+                </span>
+            </h1>
+
+            <p class="text-slate-300 text-base md:text-xl max-w-2xl font-rajdhani font-medium leading-relaxed">
+                Selamat datang di platform berkepadatan tinggi. Nikmati integrasi data real-time, visualisasi tingkat lanjut, dan enkripsi keamanan siber tanpa batas.
+            </p>
+
+            <!-- 3D Glassmorphism Interactive Cards Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 w-full max-w-4xl my-2">
+                <div class="p-4 rounded-2xl glass-card hover:border-cyan-400/60 transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fa-solid fa-bolt text-2xl text-cyan-400 mb-1"></i>
+                    <div class="text-cyan-300 text-xl font-orbitron font-bold">99.99%</div>
+                    <div class="text-slate-400 text-xs font-rajdhani font-semibold mt-0.5">Stabilitas Server</div>
+                </div>
+                <div class="p-4 rounded-2xl glass-card hover:border-indigo-400/60 transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fa-solid fa-microchip text-2xl text-indigo-400 mb-1"></i>
+                    <div class="text-indigo-300 text-xl font-orbitron font-bold">&lt; 0.1 ms</div>
+                    <div class="text-slate-400 text-xs font-rajdhani font-semibold mt-0.5">Latensi Jaringan</div>
+                </div>
+                <div class="p-4 rounded-2xl glass-card hover:border-emerald-400/60 transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fa-solid fa-lock text-2xl text-emerald-400 mb-1"></i>
+                    <div class="text-emerald-300 text-xl font-orbitron font-bold">AES-256</div>
+                    <div class="text-slate-400 text-xs font-rajdhani font-semibold mt-0.5">Enkripsi Data</div>
+                </div>
+                <div class="p-4 rounded-2xl glass-card hover:border-purple-400/60 transition-all duration-300 transform hover:-translate-y-1">
+                    <i class="fa-solid fa-users-viewfinder text-2xl text-purple-400 mb-1"></i>
+                    <div class="text-purple-300 text-xl font-orbitron font-bold">12.8 K</div>
+                    <div class="text-slate-400 text-xs font-rajdhani font-semibold mt-0.5">Sesi Aktif</div>
+                </div>
+            </div>
+
+            <!-- THE RED GLOWING BUTTON (TRIGGER PRANK) -->
+            <div class="pt-6">
+                <button id="danger-btn" class="btn-danger-glowing relative inline-flex items-center justify-center px-10 py-5 text-xl md:text-2xl font-orbitron font-black text-white bg-gradient-to-r from-red-600 via-rose-600 to-red-800 rounded-2xl transition-all duration-300 cursor-pointer border-2 border-red-300 tracking-wider">
+                    <i class="fa-solid fa-triangle-exclamation mr-3 text-2xl text-yellow-300 animate-bounce"></i>
+                    <span>Jangan Di Sentuh</span>
+                </button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="w-full max-w-6xl text-center py-3 z-10 text-slate-500 text-xs font-mono-tech border-t border-slate-800/80">
+            &copy; 2026 NEXUS CORE SECURITY SYSTEMS INC. ALL RIGHTS RESERVED.
+        </footer>
+    </div>
+
+
+    <!-- ================= HALAMAN 2: CREEPY / HORROR / RED DARK SCARE PAGE (SCROLLABLE) ================= -->
+    <div id="page-2" class="fixed inset-0 hidden h-screen w-screen overflow-y-auto blood-background z-20">
+        
+        <!-- Fixed Canvas Lightning & Flash Overlay -->
+        <div class="fixed inset-0 pointer-events-none z-0">
+            <canvas id="lightning-canvas"></canvas>
+            <div id="lightning-overlay" class="absolute inset-0 bg-red-100 opacity-0 transition-opacity duration-75"></div>
+        </div>
+
+        <!-- Scrollable Inner Wrapper -->
+        <div class="relative min-h-full flex flex-col justify-between items-center p-4 md:p-8 z-10 space-y-8">
+            
+            <!-- Warning Header (NO AUDIO BUTTON) -->
+            <header class="w-full max-w-5xl flex justify-between items-center py-3 px-6 rounded-xl bg-black/80 border-2 border-red-600/80 shadow-[0_0_20px_rgba(255,0,0,0.5)] backdrop-blur-md mt-2 shrink-0">
+                <div class="flex items-center space-x-3 text-red-500 font-orbitron text-sm font-black tracking-widest animate-pulse">
+                    <i class="fa-solid fa-skull text-2xl text-red-600"></i>
+                    <span class="glitch-text">CRITICAL SECURITY BREACH</span>
+                </div>
+                <div class="flex items-center space-x-2 text-xs font-mono-tech text-red-500 animate-ping">
+                    <i class="fa-solid fa-radiation"></i>
+                    <span>MALWARE ACTIVE</span>
+                </div>
+            </header>
+
+            <!-- Main Creepy Horror Section -->
+            <main class="w-full max-w-4xl flex flex-col items-center text-center my-auto py-6 space-y-6">
+                
+                <!-- Pulsing Biohazard & Skull Icon -->
+                <div class="relative">
+                    <div class="w-28 h-28 rounded-full bg-red-700/30 flex items-center justify-center border-4 border-red-600/80 shadow-[0_0_70px_rgba(255,0,0,0.9)] animate-ping absolute top-0 left-0"></div>
+                    <div class="w-28 h-28 rounded-full bg-black/90 flex items-center justify-center border-4 border-red-600 shadow-[0_0_40px_rgba(255,0,0,1)] relative z-10">
+                        <i class="fa-solid fa-skull-crossbones text-6xl text-red-600 glitch-text"></i>
+                    </div>
+                </div>
+
+                <!-- Creepy Title Header -->
+                <h2 class="font-creepster text-5xl sm:text-7xl lg:text-8xl text-red-600 tracking-widest drop-shadow-[0_10px_20px_rgba(0,0,0,1)] glitch-text">
+                    SYSTEM OVERRIDDEN
+                </h2>
+
+                <!-- Requested Exact Warning Text (Full Visibility with Scrolling) -->
+                <div class="p-6 md:p-8 rounded-2xl bg-black/90 border-2 border-red-600 shadow-[0_0_50px_rgba(185,28,28,0.7)] backdrop-blur-xl max-w-3xl">
+                    <p class="font-orbitron text-lg sm:text-2xl lg:text-3xl text-red-100 leading-relaxed font-black tracking-wide drop-shadow-[0_2px_10px_rgba(255,0,0,0.8)]">
+                        "Yah System Hp Anda Terpantau Dan Nomor Anda Terlihat Oleh Saya,mohon persiapkan keamanan hp anda,jika salah satu Malware/Trojan Terkirim ke nomor anda,atau hubungi developernya untuk menghentikan tingkat lanjut"
+                    </p>
+                </div>
+
+                <!-- Scroll Down Hint Indicator -->
+                <div class="flex items-center space-x-2 text-red-400 font-mono-tech text-xs animate-bounce pt-2">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <span>SCROLL DOWN FOR DETAILED LOGS</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+
+                <!-- Terminal Hacking Output Simulation -->
+                <div class="w-full max-w-md bg-black/90 border border-red-900/80 rounded-lg p-4 font-mono-tech text-left text-xs text-red-500 space-y-1.5 shadow-[0_0_15px_rgba(150,0,0,0.5)]">
+                    <p>> INJECTING TROJAN.RAT.EXPLOIT_v8.4... [OK]</p>
+                    <p>> SCANNING CELLULAR MODULE (SIM 1 / SIM 2)... [DETECTED]</p>
+                    <p>> EXFILTRATING CONTACTS & MESSAGES... [IN PROGRESS]</p>
+                    <p>> GPS GEOLOCATION LOCK: <span class="text-red-400 font-bold">LAT -0.949 / LONG 100.354</span></p>
+                    <p>> HARDWARE LOCK STATUS: <span class="text-red-400 font-bold animate-pulse">ENFORCED</span></p>
+                </div>
+            </main>
+
+            <!-- Horror Footer -->
+            <footer class="w-full max-w-5xl text-center py-3 text-red-700 text-[10px] font-mono-tech tracking-widest shrink-0">
+                [FATAL ERROR] CORRUPTING HARDWARE CYCLES // DEVICE INTEGRITY UNSTABLE
+            </footer>
+        </div>
+    </div>
+
+    <!-- JavaScript Audio, Animation & Continuous Shock Logic -->
+    <script>
+        // Audio Context & State
+        let audioCtx = null;
+        let isHorrorActive = false;
+        let thunderInterval = null;
+        let vibrateInterval = null;
+
+        // ================= PAGE 1: PARTICLES ANIMATION =================
+        const pCanvas = document.getElementById('particles-canvas');
+        const pCtx = pCanvas.getContext('2d');
+        let particles = [];
+
+        function resizeParticlesCanvas() {
+            pCanvas.width = window.innerWidth;
+            pCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeParticlesCanvas);
+        resizeParticlesCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * pCanvas.width;
+                this.y = Math.random() * pCanvas.height;
+                this.size = Math.random() * 2.5 + 1;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.speedY = (Math.random() - 0.5) * 1.5;
+                this.color = Math.random() > 0.5 ? 'rgba(6, 182, 212, ' : 'rgba(99, 102, 241, ';
+                this.alpha = Math.random() * 0.7 + 0.3;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > pCanvas.width || this.y < 0 || this.y > pCanvas.height) {
+                    this.reset();
+                }
+            }
+            draw() {
+                pCtx.fillStyle = this.color + this.alpha + ')';
+                pCtx.shadowBlur = 8;
+                pCtx.shadowColor = 'cyan';
+                pCtx.beginPath();
+                pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 90; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+
+        // ================= PAGE 2: LIGHTNING & VISUAL FX =================
+        const lCanvas = document.getElementById('lightning-canvas');
+        const lCtx = lCanvas.getContext('2d');
+
+        function resizeLightningCanvas() {
+            lCanvas.width = window.innerWidth;
+            lCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeLightningCanvas);
+        resizeLightningCanvas();
+
+        function drawLightningBolt(x1, y1, x2, y2) {
+            lCtx.strokeStyle = 'rgba(255, 230, 230, 0.95)';
+            lCtx.lineWidth = Math.random() * 4 + 2;
+            lCtx.shadowColor = 'rgba(255, 0, 0, 1)';
+            lCtx.shadowBlur = 25;
+
+            lCtx.beginPath();
+            lCtx.moveTo(x1, y1);
+
+            let curX = x1;
+            let curY = y1;
+            const steps = 15;
+
+            for (let i = 0; i < steps; i++) {
+                const targetX = x1 + ((x2 - x1) / steps) * (i + 1);
+                const targetY = y1 + ((y2 - y1) / steps) * (i + 1);
+                curX = targetX + (Math.random() - 0.5) * 70;
+                curY = targetY + (Math.random() - 0.5) * 30;
+                lCtx.lineTo(curX, curY);
+            }
+            lCtx.stroke();
+        }
+
+        // ================= CONTINUOUS AUDIO SYNTHESIZER =================
+        function initAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Eerie Background Horror Drone (Continuous)
+        function startContinuousHorrorDrone() {
+            if (!audioCtx) return;
+
+            const masterGain = audioCtx.createGain();
+            masterGain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+            masterGain.connect(audioCtx.destination);
+
+            // Deep unsettling oscillators
+            const lowFreqs = [45, 48.5, 65.4, 92.5];
+            lowFreqs.forEach(freq => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                // Modulation LFO
+                const lfo = audioCtx.createOscillator();
+                lfo.frequency.setValueAtTime(0.3 + Math.random() * 0.4, audioCtx.currentTime);
+                const lfoGain = audioCtx.createGain();
+                lfoGain.gain.setValueAtTime(4, audioCtx.currentTime);
+                lfo.connect(osc.frequency);
+                lfo.start();
+
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                osc.connect(gain);
+                gain.connect(masterGain);
+                osc.start();
+            });
+
+            // Continuous Wind / Horror Resonance
+            const bufferSize = audioCtx.sampleRate * 2;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(250, audioCtx.currentTime);
+            filter.Q.setValueAtTime(5, audioCtx.currentTime);
+
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(noiseGain);
+            noiseGain.connect(masterGain);
+            whiteNoise.start();
+        }
+
+        // Thunder Boom Audio Synthesizer
+        function playThunderSound() {
+            if (!audioCtx || !isHorrorActive) return;
+
+            const duration = 2.0;
+            const bufferSize = audioCtx.sampleRate * duration;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(220, audioCtx.currentTime);
+            filter.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + duration);
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(1.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            noise.start();
+        }
+
+
+        // ================= CONTINUOUS LIGHTNING & VIBRATION LOOP =================
+        function triggerLightningAndVibration() {
+            if (!isHorrorActive) return;
+
+            const overlay = document.getElementById('lightning-overlay');
+
+            // Flash Screen
+            overlay.style.opacity = '0.95';
+            setTimeout(() => { overlay.style.opacity = '0'; }, 50);
+            setTimeout(() => { overlay.style.opacity = '0.7'; }, 100);
+            setTimeout(() => { overlay.style.opacity = '0'; }, 180);
+
+            // Draw Canvas Lightning
+            lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
+            const startX = Math.random() * lCanvas.width;
+            const endX = startX + (Math.random() - 0.5) * 400;
+            drawLightningBolt(startX, 0, endX, lCanvas.height);
+
+            setTimeout(() => {
+                lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
+            }, 220);
+
+            // Audio Thunder
+            playThunderSound();
+
+            // Continuous Intense Phone Vibration
+            if ("vibrate" in navigator) {
+                // Strong vibration pattern
+                navigator.vibrate([150, 50, 300, 100, 500]);
+            }
+        }
+
+        // Rapid, non-stop loop for horror effects
+        function startNonStopHorrorLoops() {
+            isHorrorActive = true;
+            
+            // Immediately trigger sound and vibration
+            triggerLightningAndVibration();
+
+            // Rapid lightning strikes interval (every 800ms - 2500ms randomly)
+            const scheduleLightning = () => {
+                if (!isHorrorActive) return;
+                const delay = Math.random() * 1700 + 700;
+                thunderInterval = setTimeout(() => {
+                    triggerLightningAndVibration();
+                    scheduleLightning();
+                }, delay);
+            };
+            scheduleLightning();
+
+            // Backup Vibration interval to guarantee constant device shaking
+            vibrateInterval = setInterval(() => {
+                if (isHorrorActive && "vibrate" in navigator) {
+                    navigator.vibrate([150, 50, 300, 100, 500]);
+                }
+            }, 500);
+        }
+
+        // Stop all horror loops and audio
+        function stopHorrorLoops() {
+            isHorrorActive = false;
+            if (thunderInterval) clearTimeout(thunderInterval);
+            if (vibrateInterval) clearInterval(vibrateInterval);
+
+            if ("vibrate" in navigator) {
+                navigator.vibrate(0); // Stop vibration immediately
+            }
+
+            if (audioCtx) {
+                audioCtx.close();
+                audioCtx = null;
+            }
+        }
+
+        // ================= NAVIGATION HANDLERS =================
+        const page1 = document.getElementById('page-1');
+        const page2 = document.getElementById('page-2');
+        const dangerBtn = document.getElementById('danger-btn');
+
+        // Switch to Page 2 (Creepy Prank Mode)
+        dangerBtn.addEventListener('click', () => {
+            initAudioContext();
+
+            page1.classList.add('opacity-0');
+            setTimeout(() => {
+                page1.classList.add('hidden');
+                page2.classList.remove('hidden');
+                page2.scrollTop = 0; // Reset scroll position to top
+
+                // Start continuous audio drone & rapid lightning/vibration loops
+                startContinuousHorrorDrone();
+                startNonStopHorrorLoops();
+            }, 400);
+        });
+    </script>
+</body>
+</html>
